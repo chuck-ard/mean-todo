@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WebTodo</title>
+    <script src="js/jquery-3.1.0.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/angular.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <script src="js/main.js"></script>
+</head>
+<body data-ng-app="WebTodo" data-ng-controller="MainController">
+    <div class="container-fluid">
+
+        <table class="table table-striped">
+            <thead>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Due Date</th>
+                <th>Priority</th>
+                <th>Status</th>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="task in tasks">
+                    <td>{{task.title}}</td>
+                    <td>{{task.description}}</td>
+                    <td>{{task.due | date}}</td>
+                    <td>{{task.priority}}</td>
+                    <td>{{task.status}}</td>
+                    <td><button class="btn btn-danger" ng-click="remove(task._id);">&times;</button></td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" class="form-control" data-ng-model="todo.title" placeholder="Task Name">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" data-ng-model="todo.description" placeholder="Description">
+                    </td>
+                    <td>
+                        <input type="date" class="form-control" data-ng-model="todo.due" placeholder="Due Date">
+                    </td>
+                    <td>
+                        <select class="form-control" data-ng-model="todo.priority">
+                            <option data-ng-repeat="level in priorityLevels" value="{{level}}">{{level}}</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select class="form-control" data-ng-model="todo.status">
+                            <option data-ng-repeat="level in statusLevels" value="{{level}}">{{level}}</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button class="btn btn-success" ng-click="addTask()">&plus;</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
