@@ -1,0 +1,71 @@
+extends layout
+
+block content
+
+  div.container-fluid
+    section#home
+      .jumbotron
+        .container
+          h2  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          h4  Asperiores, dolorem, fugiat! Quidem, a ipsam! Beatae facere possimus, quisquam, culpa magni nihil officiis, laudantium sequi cupiditate quas itaque!
+      .container
+        .row
+          .col-xs-12.col-sm-12.col-md-4.col-lg-4
+            img.img-circle.img-responsive(src='https://placeholdit.imgix.net/~text?txtsize=14&txt=150%C3%97150&w=150&h=150')
+            h2 Feature 1
+            p  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis rerum temporibus inventore distinctio dolore, sapiente id cum iusto veritatis minus vero a, excepturi ipsam reprehenderit? Labore in commodi dolorum expedita!
+            a.btn.btn-default View More &raquo;
+          .col-xs-12.col-sm-12.col-md-4.col-lg-4
+            img.img-circle.img-responsive(src='https://placeholdit.imgix.net/~text?txtsize=14&txt=150%C3%97150&w=150&h=150')
+            h2 Feature 1
+            p  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis rerum temporibus inventore distinctio dolore, sapiente id cum iusto veritatis minus vero a, excepturi ipsam reprehenderit? Labore in commodi dolorum expedita!
+            a.btn.btn-default View More &raquo;
+          .col-xs-12.col-sm-12.col-md-4.col-lg-4
+            img.img-circle.img-responsive(src='https://placeholdit.imgix.net/~text?txtsize=14&txt=150%C3%97150&w=150&h=150')
+            h2 Feature 1
+            p  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis rerum temporibus inventore distinctio dolore, sapiente id cum iusto veritatis minus vero a, excepturi ipsam reprehenderit? Labore in commodi dolorum expedita!
+            a.btn.btn-default View More &raquo;
+      hr
+
+    section#features
+      .container
+        .row
+          .col-xs-12.col-sm-12.col-md-7.col-lg-7
+            h2.featurette-heading Feature One
+            p.lead  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi accusamus ab beatae dolores laboriosam, enim natus dolore. Temporibus tenetur nihil eaque perspiciatis nesciunt rerum quam, dolor eveniet optio ipsum. Repellat.
+          .col-xs-12.col-sm-12.col-md-5.col-lg-5
+            img.img-responsive(src='https://placeholdit.imgix.net/~text?txtsize=47&txt=500%C3%97500&w=500&h=500')
+
+        .row
+          .col-xs-12.col-sm-12.col-md-7.col-lg-7
+            h2.featurette-heading Feature Two
+            p.lead  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi accusamus ab beatae dolores laboriosam, enim natus dolore. Temporibus tenetur nihil eaque perspiciatis nesciunt rerum quam, dolor eveniet optio ipsum. Repellat.
+          .col-xs-12.col-sm-12.col-md-5.col-lg-5
+            img.img-responsive(src='https://placeholdit.imgix.net/~text?txtsize=47&txt=500%C3%97500&w=500&h=500')
+
+        .row
+          .col-xs-12.col-sm-12.col-md-7.col-lg-7
+            h2.featurette-heading Feature Three
+            p.lead  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi accusamus ab beatae dolores laboriosam, enim natus dolore. Temporibus tenetur nihil eaque perspiciatis nesciunt rerum quam, dolor eveniet optio ipsum. Repellat.
+          .col-xs-12.col-sm-12.col-md-5.col-lg-5
+            img.img-responsive(src='https://placeholdit.imgix.net/~text?txtsize=47&txt=500%C3%97500&w=500&h=500')
+
+    section#contact
+      .container
+        h2.text-center Get in Touch
+        form.form-horizontal(role='form')
+          div.form-group
+            label.control-label(for='contactName')
+            input.form-control(type='text', id='contactName', placeholder='Name: John Doe')
+          div.form-group
+            label.control-label(for='contactEmail')
+            input.form-control(type='email', id='contactEmail', placeholder='Email: user@domain.com')
+          div.form-group
+            label.control-label(for='contactPhone')
+            input.form-control(type='tel', id='contactPhone', placeholder='Phone: 555-555-1234')
+          div.form-group
+            label.control-label(for='contactMessage')
+            textarea.form-control(id='contactMessage', placeholder='Message: ')
+          div.form-group
+            button.btn.btn-primary(type='submit')
+              span.glyphicon.glyphicon-send  Send

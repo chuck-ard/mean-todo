@@ -1,0 +1,22 @@
+extends layout
+
+block content
+
+    div.container-fluid
+        section#login
+            div.container
+                != messages()
+                form.form-horizontal(role='form', id='login-form', method='post', action='/login')
+                    .form-group
+                    .form-group
+                    .form-group
+                        label.control-label(for='username')
+                        input.form-control(id='username', name='username', type='text', placeholder='Username: jdoe')
+                    .form-group
+                        label.control-label(for='password')
+                        input.form-control(id='password', name='password', type='password', placeholder='Password')
+                    .form-group
+                        button.btn.btn-primary(id='SubmitRegistration', type='submit') Login &nbsp;
+                            span.glyphicon.glyphicon-send
+
+

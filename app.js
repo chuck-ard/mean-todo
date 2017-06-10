@@ -1,135 +1,112 @@
 var express = require('express');
+var path = require('path');
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var expressValidator = require('express-validator');
+var multer = require('multer');
+var upload = multer({dest: './uploads'});
+var flash = require('connect-flash');
+var bcrypt = require('bcryptjs');
+var mongo = require('mongodb');
 var mongoose = require('mongoose');
-var Task = require('./Task.model');
-var port = 8080;
-var db = 'mongodb://localhost/example';
+var db = mongoose.connection;
 
-mongoose.connect(db);
+var routes = require('./routes/index');
+var users = require('./routes/users');
 
 var app = express();
-app.use(express.static(__dirname + '/public'));
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+
+// uncomment after placing your favicon in /public
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
+// Handle Sessions
+app.use(session({
+    secret:'secret',
+    saveUninitialized: true,
+    resave: true
+}));
 
-app.get('/', function(req, res){
-    console.log('Fetching tasks');
-    Task.find({})
-        .exec(function(err, tasks){
-            if ( err )
-            {
-                console.log(err);
-            } else {
-                res.json(tasks);
-            }
+// Passport
+app.use(passport.initialize());
+app.use(passport.session());
 
-        });
-});
+// Validator
+app.use(expressValidator({
+    errorFormatter: function(param, msg, value) {
+        var namespace = param.split('.')
+            , root    = namespace.shift()
+            , formParam = root;
 
-app.get('/tasks', function(req, res){
-    console.log('Fetching tasks');
-    Task.find({})
-        .exec(function(err, tasks){
-            if ( err )
-            {
-                console.log(err);
-            } else {
-                res.json(tasks);
-            }
-
-        });
-});
-
-app.get('/tasks/:id', function(req, res){
-    console.log('Fetching one book');
-    Task.findOne({
-        _id:req.params.id
-    })
-        .exec(function(err, task){
-            if ( err ) {
-                console.log(err);
-            } else {
-                res.json(task);
-            }
-        });
-});
-
-app.post('/task', function(req, res){
-   var newTask = new Task();
-
-    newTask.title = req.body.title;
-    newTask.description = req.body.description;
-    newTask.due = req.body.due;
-    newTask.priority = req.body.priority;
-    newTask.status = req.body.status;
-
-    newTask.save(function(err, task){
-        if ( err ) {
-            res.send('Error saving task');
-        } else {
-            console.log(task);
-            Task.find({})
-                .exec(function(err, tasks){
-                    if ( err )
-                    {
-                        console.log(err);
-                    } else {
-                        res.json(tasks);
-                    }
-
-                });
+        while(namespace.length) {
+            formParam += '[' + namespace.shift() + ']';
         }
+        return {
+            param : formParam,
+            msg   : msg,
+            value : value
+        };
+    }
+}));
+
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(flash());
+app.use(function (req, res, next) {
+    res.locals.messages = require('express-messages')(req, res);
+    next();
+});
+
+app.get('*', function(req, res, next) {
+    res.locals.user = req.user || null;
+    next();
+});
+
+app.use('/', routes);
+app.use('/users', users);
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+});
+
+// error handlers
+
+// development error handler
+// will print stacktrace
+if (app.get('env') === 'development') {
+    app.use(function(err, req, res, next) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: err
+        });
+    });
+}
+
+// production error handler
+// no stacktraces leaked to user
+app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+        message: err.message,
+        error: {}
     });
 });
 
-app.post('/task2', function(req, res) {
-    Task.create(req.body, function(err, task){
-        if ( err ) {
-            res.send('Error saving task');
-        } else {
-            console.log(task);
-            res.send(task);
-        }
-    });
-});
 
-app.put('/task/:id', function(req, res) {
-    Task.findOneAndUpdate({
-        _id: req.params.id
-    }, {$set: {title: req.body.title}},
-        {upsert: true},
-        function(err, newTask){
-        if ( err ) {
-            console.log(err);
-            res.send('Error saving task');
-        } else {
-            console.log(newTask);
-            res.send(newTask);
-        }
-    });
-});
-
-app.delete('/task/:id', function(req, res) {
-   Task.findOneAndRemove({
-       _id:req.params.id
-   }, function(err, task) {
-       if (err ) {
-           res.send('Error deleting task');
-       } else {
-           console.log(task);
-           Task.find({})
-               .exec(function(err, tasks){
-                   if ( err ) {
-                       res.send('Error fetching tasks');
-                   } else {
-                       res.json(tasks);
-                   }
-               });
-       }
-   });
-});
-
-app.listen(port, function() {
-    console.log('Server is running...');
-});
+module.exports = app;

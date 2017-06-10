@@ -1,0 +1,88 @@
+extends layout
+
+block content
+
+    section#userOverview
+      div.container-fluid(data-ng-app='todoApp', data-ng-controller='mainController')
+        div.container
+
+          table.table.table-striped
+            thead
+              th Task
+              th Description
+              th Due Date
+              th Priority
+              th Status
+
+
+            tbody
+              tr(data-ng-repeat='task in tasks')
+                td {{task.title}}
+                td {{task.description}}
+                td {{task.due_date | date}}
+                td {{task.priority}}
+                td {{task.status}}
+                td
+                  button.btn.btn-danger(data-ng-click='remove(task._id);') &times;
+             
+              tr
+                td
+                  input.form-control(type='text', data-ng-model='singleTask.title' placeholder='Task Name' required)
+                td
+                  input.form-control(type='text', data-ng-model='singleTask.description' placeholder='Description')
+                td
+                  input.form-control(type='date', data-ng-model='singleTask.due' placeholder='Due Date')
+                td
+                  select.form-control(data-ng-model='singleTask.priority')
+                    option(data-ng-repeat='level in priorityLevels' value='{{level}}') {{level}}
+                td
+                  select.form-control(data-ng-model='singleTask.status')
+                    option(data-ng-repeat='level in statusLevels' value='{{level}}') {{level}}
+                td
+                  button.btn.btn-primary(data-ng-click='addTask()') &plus;
+            .row
+              .col-xs-12.col-sm-12.col-md
+
+
+
+    script.
+      var app = angular.module('todoApp', []);
+      app.controller('mainController', function($scope, $http) {
+        $http.get('/users/overview/tasks')
+            .success(function(response){
+                $scope.tasks = response;
+            });
+        $scope.remove = function(id) {
+            $http.delete('/users/task/' + id)
+                .success(function (response) {
+                    $scope.tasks = response;
+                });
+        };
+
+
+        $scope.addTask = function() {
+            $http.post('/users/task', $scope.singleTask)
+                .success(function(response) {
+                    $scope.tasks = response;
+                    $scope.singleTask.title = "";
+                    $scope.singleTask.description = "";
+                    $scope.singleTask.due = "";
+                    $scope.singleTask.priority = "";
+                    $scope.singleTask.status = "";
+                });
+        }
+
+        $scope.singleTask = {
+            title: "",
+            description: "",
+            due: "",
+            priority: "",
+            status: ""
+        };
+
+        $scope.priorityLevels = ["Low", "Moderate", "High", "Oh SHIT!"];
+        $scope.statusLevels = ["Not Started", "In Progress", "Almost Done", "Completed"];
+      });
+
+
+

@@ -1,0 +1,128 @@
+$navbarHeight: 5.5vh;
+$footerHeight: 5.5vh;
+
+$success-bg: #dff0d8;
+$success-border-color: #d6e9c6;
+$success-color: #3c763d;
+$error-bg: #f2dede;
+$error-border-color: #ebccd1;
+$error-color: #a94442;
+
+*, *:after, *:before {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+.navbar.navbar-default.navbar-custom {
+  margin-bottom: 0;
+  border-radius: 0;
+  box-shadow: 2px 0 5px #222;
+  height: $navbarHeight;
+}
+
+#messages {
+  border-radius: 5px;
+  line-height: 3em;
+  margin: 5rem auto -5rem auto;
+  text-align: center;
+  width: 50%;
+
+  ul {
+    list-style-type: none;
+    border: 1px solid;
+  }
+
+  ul.success {
+    background-color: $success-bg;
+    border-color: $success-border-color;
+    color: $success-color;
+  }
+
+  ul.error {
+    background-color: $error-bg;
+    border-color: $error-border-color;
+    color: $error-color;
+  }
+
+
+}
+
+section {
+  &#home {
+    height: 100vh;
+
+    .jumbotron {
+      height: 50%;
+      margin-left: -60px;
+
+      .container {
+        left: -10%;
+        position: relative;
+        text-align: left;
+        top: 25%;
+        width: 50%;
+
+      }
+
+    }
+    hr {
+      width: 75%;
+    }
+
+  }
+
+  &#features {
+    margin-top: 2rem;
+
+    .row {
+      margin-bottom: 2rem;
+    }
+  }
+
+  &#contact {
+    background-color: #333;
+    color: #fff;
+    margin-left: -30px;
+
+    form {
+      margin: 2rem auto;
+      width: 75%;
+    }
+
+  }
+
+  &#signup {
+    height: 100vh - ($navbarHeight + $footerHeight);
+  }
+
+  &#login {
+    height: 100vh - ($navbarHeight + $footerHeight);
+  }
+
+  &#userOverview {
+    height: 100vh - ($navbarHeight + $footerHeight);
+    .container {
+      table {
+        left: 50%;
+        position: relative;
+        top: 0;
+        transform: translate(-50%, 50%);
+      }
+    }
+  }
+
+  width: 100vw;
+}
+
+footer {
+  height: $footerHeight;
+
+  p {
+    line-height: 5rem;
+  }
+
+}

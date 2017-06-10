@@ -1,0 +1,31 @@
+extends layout
+
+block content
+
+    div.container-fluid
+      section#signup
+        div.container
+            if errors
+              each error, i in errors
+                div.alert.alert-danger #{error.msg}
+            != messages()
+            form.form-horizontal(role='form', id='registration-form', method='post', action='/signup', enctype='multipart/form-data')
+                .form-group
+                    label.control-label(for='registerName')
+                    input.form-control(id='registerName', name='registerName', type='text', placeholder='Name: John Doe')
+                .form-group
+                    label.control-label(for='registerEmail')
+                    input.form-control(id='registerEmail', name='registerEmail' type='email', placeholder='Email: user@domain.com')
+                .form-group
+                    label.control-label(for='registerUsername')
+                    input.form-control(id='registerUsername', name='registerUsername', type='text', placeholder='Username: jdoe')
+                .form-group
+                    label.control-label(for='registerPassword')
+                    input.form-control(id='registerPassword', name='registerPassword', type='password', placeholder='Password')
+                .form-group
+                    label.control-label(for='registerPassword2')
+                    input.form-control(id='registerPassword2', name='registerPassword2', type='password', placeholder='Confirm Password')
+                .form-group
+                    button.btn.btn-primary(id='SubmitRegistration', type='submit') Submit &nbsp;
+                      span.glyphicon.glyphicon-send
+
